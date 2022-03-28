@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -25,7 +26,7 @@ class UserController extends Controller
 
         $user->name = $request->name;
         $user->username = $request->username;
-        $user->password = $request->username;
+        $user->password = Hash::make($request->username);
         $user->phone = $request->phone;
         $user->role = $request->role;
 
