@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Complaint;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
@@ -96,8 +97,23 @@ class ComplaintController extends Controller
 
     public function print($id)
     {
-        $complaint = Complaint::findOrFail($id);
+        $data = Complaint::findOrFail($id);
 
-        return view('complaint.print', compact('complaint'));
+        $complaint = [
+            'complaint' => [
+                'id' => $data->id,
+                'title' => $data->title,
+                'name' => $data->name,
+                'nik' => $data->nik,
+                'photo' => $data->photo,
+                'content' => $data->content,
+                'created_at' => Carbon::create($data->created_at)->locale('in_ID')->isoFormat('DD MMMM Y'),
+                'status' => $data->status,
+            ]
+        ];
+
+        $pdf = PDF::loadView('complaint.print', $complaint);
+
+        return $pdf->stream('invoice.pdf');
     }
 }

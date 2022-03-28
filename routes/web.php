@@ -47,7 +47,6 @@ Route::group(['middleware' => ['auth'], 'role:ADMIN'], function () {
 });
 
 Route::group(['middleware' => ['auth'], 'role:STAFF'], function () {
-    // TODO: improve print
     Route::get('/pengaduan/print/{id}', [ComplaintController::class, 'print'])->name('complaint.print');
     Route::prefix('complaint')->name('complaint.')->group(function () {
         Route::delete('/{id}', [ComplaintController::class, 'delete'])->name('delete');
