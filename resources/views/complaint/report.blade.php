@@ -133,11 +133,14 @@
 @section('script')
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script>
+    try{
         $(document).ready( function () {
             $('#table').DataTable();
             $('#table').removeClass('dataTable');
         });
-
+        }catch(err){
+        
+}
         function btnChangeStatus(id, status) {
             let route = '{{route('complaint.update', 'BJIRkaowka')}}';
             route = route.replace('BJIRkaowka', id);
